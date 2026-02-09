@@ -1,0 +1,21 @@
+.services {
+  display: flex;
+  gap: 30px;
+  padding: 80px;
+  background: #f5f6fa;
+}
+
+.card {
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  flex: 1;
+  font-size: 22px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+  transition: transform 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+}
