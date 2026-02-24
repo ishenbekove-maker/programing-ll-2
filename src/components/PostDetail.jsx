@@ -1,50 +1,28 @@
-// src/components/PostDetail.jsx
-import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { fetchWithDelay } from '../utils/fetchWithDelay';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { posts } from '../data/fakeData';
 
-const PostDetail = () => {
-  const { id } = useParams();
-  const [post, setPost] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const loadData = async () => {
-      try {
-        const data = await fetchWithDelay(`https://jsonplaceholder.typicode.com/posts/${id}`, 1600);
-        setPost(data);
-      } catch (err) {
-        console.error('Ошибка загрузки поста:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadData();
-  }, [id]);
-
-  if (loading) return <p>Загрузка подробностей поста...</p>;
-  if (!post) return <p>Пост не найден</p>;
-
-  // src/components/PostDetail.jsx
-// ... (остальной код)
-
-return (
-  <section className="detail-section">
-    <div className="detail-card">
-      <h1>{post.title}</h1>
-      <div className="post-meta">
-        <span>Пост # {post.id}</span>
-        <span>Пользователь {post.userId}</span>
+const PostList = () => {
+  return (
+    <section className="content-section">
+      <h2>Посты</h2>
+      <div className="grid-container">
+        {posts.map((post, index) => (
+          <div
+            key={post.id}
+            className="post-card"
+            style={{ '--order': index }}
+          >
+            <h3>{post.title}</h3>
+            <p>{post.body.substring(0, 120)}...</p>
+            <Link to={`/post/${post.id}`} className="action-btn view">
+              Читать полностью →
+            </Link>
+          </div>
+        ))}
       </div>
-      <p className="post-body">{post.body}</p>
-
-      <Link to="/" className="back-btn">
-        ← Вернуться на главную
-      </Link>
-    </div>
-  </section>
-);
+    </section>
+  );
 };
 
-export default PostDetail;
+export default PostList;

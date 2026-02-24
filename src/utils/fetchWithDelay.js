@@ -1,8 +1,16 @@
-export const fetchWithDelay = async (url, delayMs = 2000) => {
-  const response = await fetch(url);
+export const fetchWithDelay = async (url, options = {}, delayMs = 1800) => {
+  const response = await fetch(url, options);
+  
   if (!response.ok) {
-    throw new Error('Network response was not ok');
+    throw new Error(`Ошибка: ${response.status} — ${response.statusText}`);
   }
-  await new Promise(resolve => setTimeout(resolve, delayMs)); // Artificial delay
+
+  await new Promise(r => setTimeout(r, delayMs));
+
+  // Для DELETE часто возвращается пустой ответ
+  if (options.method === 'DELETE') {
+    return { success: true };
+  }
+
   return response.json();
 };
